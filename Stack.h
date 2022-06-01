@@ -12,6 +12,7 @@
 #include "EStackException.h"
 #include "EStackEmpty.h"
 
+#include <functional>
 template <class T> class Stack
 {
 private:
@@ -23,21 +24,16 @@ private:
     Node *last_f = nullptr; //последний узел
     int size_f = 0;//размер стека
 public:
-    //коструктор копирования?
     ~Stack();//деструктор
     void Push(const T &val);//помещение объекта в стек
     const T Pop();//извлечение объекта из стека(извлекаю последний)
     int Size(){return size_f;};//получение размера стека
+    void forEach(std::function<void(const T &value)> f) const; // функция перебора всех значений стека
+    void Clear(); // удаление из стека всех узлов
 };
 template <class T> Stack<T>::~Stack()
 {
-    while (last_f != nullptr)//пока есть элементы
-    {
-        //привязываем к last_f предпоследний узел и удаляем последний
-        Node *tmp = last_f;
-        last_f = last_f -> prev_f;
-        delete tmp;
-    }
+    Clear();
 }
 template <class T> void Stack<T>:: Push(const T &val)
 {
@@ -62,6 +58,27 @@ template <class T> const T Stack<T>:: Pop()
 
     size_f--;//отражаем уменьшение размера стека
     return value;//возвращаем значение последнего узла
+}
+// значения не удаляются, поэтому передаем их по ссылке
+template <class T>void Stack<T>::forEach(std::function<void(const T &value)> f) const
+{
+    Node *it = last_f; // перебор всех элементов, начиная с последнего
+
+    while (it != nullptr) // заканчивая первым
+    {
+        f(it->value_f); // функция обратной связи
+        it = it->prev_f;
+    }
+}
+
+template <class T> void Stack<T>::Clear(){
+    while (last_f != nullptr)//пока есть элементы
+    {
+        //привязываем к last_f предпоследний узел и удаляем последний
+        Node *tmp = last_f;
+        last_f = last_f -> prev_f;
+        delete tmp;
+    }
 }
 
 #endif // STACK_H

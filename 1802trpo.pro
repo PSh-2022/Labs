@@ -1,4 +1,5 @@
 QT -= gui
+QT += widgets
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -9,7 +10,9 @@ CONFIG -= app_bundle
 
 SOURCES += \
         main.cpp \
-        person.cpp
+        mainW.cpp \
+        person.cpp \
+        person_keeper.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -20,4 +23,6 @@ HEADERS += \
     EStackEmpty.h \
     EStackException.h \
     Stack.h \
-    person.h
+    mainW.h \
+    person.h \
+    person_keeper.h
