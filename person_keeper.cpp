@@ -1,58 +1,49 @@
 #include "person_keeper.h"
+#include "person.h"
+#include<fstream>
+#include<iostream>
+#include<string>
 
-void PersonKeeper::readPersons(QString path)
+PersonKeeper& PersonKeeper::instance()
 {
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) // проверяем, возможно ли открыть файл на чтение. если нет - выбрасываем исключение
-    {
-        throw "Error: readPersons(): Error of opening file for reading. File cannot be opened.";
-    }
-
-    QTextStream stream(&file); // создаем поток, содержащие текстовые данные файла
-    QString line; //содержит строки из файла
-
-    while (stream.readLineInto(&line)) // строки из файла в line, читаем до конца файла
-    {
-        stack_.Push(Person(line)); //добавляем в стек объект класса Person. для создания объекта передаем в конструктор line, содержащий ФИО одного человека
-    }
-
-    file.close(); // закрываем файл
+    static PersonKeeper keeper;// static, тк создаем единственный объект
+    return keeper;
 }
 
-void PersonKeeper::writePersons(QString path) const
+Stack<Person> PersonKeeper::readPersons( std::fstream& file)
 {
-    QFile file(path);
+     if (!file) // проверяем, возможно ли открыть файл на чтение. если нет - выбрасываем исключение
+        throw std::runtime_error("Error reading file. File not found\n");
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) // проверяем, возможно ли открыть файл на чтение. если нет - выбрасываем исключение
-    {
-        throw "Error: writePersons():  Error of opening file for writening. File cannot be opened.";
-    }
-    QTextStream stream(&file);  // создаем поток, содержащие текстовые данные файла
-    stack_.forEach([&](const Person &value) // перебираем значения в стеке
-    {
-        stream << value.last_name() << '\t' << value.first_name() << '\t' << value.patronymic() << Qt::endl; // записываем значения из стека в файл построчно
-    });
-    file.close(); // закрываем файл
+
+       Stack<Person> stack;
+       std::string string_;
+
+       while (std::getline(file, string_)) // пока файл не пуст
+           stack.Push(Person(string_)); // добавляем личность в стек
+       return stack;
 }
-
-// экспортируем данные в виде списка строк
-QStringList PersonKeeper::toQStringList() const
+//ФИО из стека в файл
+void PersonKeeper::writePersons(Stack<Person> s, std::fstream& file)
 {
-    QStringList string_list; // создаем список строк
-    stack_.forEach([&](const Person &value) // перебирая все личности
-    {
-        string_list.prepend(value.last_name() + " " + value.first_name() + " " + value.patronymic()); // записываем в список строк ФИО текущей личности
-    });
+    if (!file) // проверяем, возможно ли открыть файл на запись. если нет - выбрасываем исключение
+        throw std::runtime_error("Error: writePersons():  Error of opening file for writening. File cannot be opened.");
 
-    return string_list;
-}
 
-int PersonKeeper::Size()
-{
-    return stack_.Size();
-}
+    Stack <Person> sp(s), ts;//копия стека и временный пустой стек
+    Person P, tmp;//личность и временная переменная, чтобы не потерять информацию в стеке
 
-void PersonKeeper::Clear()
-{
-    return stack_.Clear();
+    int i = 0;
+    //заполняем временный стек значениями из копии исходного стека
+    while(i < s.Size()){
+    tmp = sp.Pop();
+    ts.Push(tmp);
+    i++;}
+
+    i = 0;
+    //из временного стека переписываем данные ФИО в файл
+    while(i < s.Size()){
+        P = ts.Pop();
+    file<<P.last_name()<<" "<<P.first_name()<<" "<<P.patronymic()<<"\n";//запись в файл
+    i++;}
 }

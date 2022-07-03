@@ -1,24 +1,63 @@
 #include "person.h"
 
-Person::Person(){
-}
-
-Person::Person(QString last_name, QString first_name, QString patronymic): lastName_(last_name), firstName_(first_name), patronymic_(patronymic){
-}
-
-Person::Person(QString full_name)
+Person::Person(const std::string& full_name) // конструктор копирования строки
 {
-    QStringList words = full_name.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts); // разбиваем полученную строку слова, слова не пусты( Qt::SkipEmptyParts)
+    bool isAlph = true;//проверка на корректность: корректной считаестя запись только из букв
+    std::string temp;
+    unsigned i = 0;
+    int count = 0;
+    for (;count <3; i++) // идем по строке, пока не заполнилось ФИО
     {
-    if (words.size() != 2 && words.size() != 3) //определяем, соответствуют лиданные формату ввода: если в строке менее двух или более трех слов - ввод не соответствует формату, выводим сообщение об ошибке{
-        throw "Error: Person(): Incorrect format of enter";
+        if (full_name[i] == ' ' ) // если пробел
+            break; // выходим из цикла
+        else {
+            if (!isalpha(full_name[i])) // если не буква
+            isAlph = false;//запись некорректна
+            else  // иначе запоминаем слово
+                temp +=full_name[i];}
     }
 
-    lastName_ = words[0]; // первое слово в строке - фамилия
-    firstName_ = words[1]; // второе - имя
-
-    if (words.size() == 3) // если есть 3-е слово - записываем отчество
+    if(isAlph) //если слово корректно, записываем его в фамилию
     {
-        patronymic_ = words[2];
+        lastName_ = temp;
+        count++;
+    }
+
+    isAlph = true;//проверка на корректность: корректной считаестя запись только из букв
+    temp.clear();//отчищаем для нового слова
+    for (i++ ;i < full_name.size(); i++) // пока не конец строки, идем по ней
+    {
+        if (full_name[i] == ' ' ) //  если пробел
+            break; // Выходим из цикла
+        else{
+            if (!isalpha(full_name[i])) // если не буква
+                isAlph = false;//запись некорректна
+            else // иначе запоминаем слово
+                temp +=full_name[i];}
+    }
+
+    if(isAlph) //если слово корректно, записываем его в имя
+    {
+        firstName_ = temp;
+        count++;
+    }
+
+    isAlph = true;//проверка на корректность: корректной считаестя запись только из букв
+    temp.clear();//отчищаем для нового слова
+    for (i++;i < full_name.size(); i++) // пока не конец строки, идем по ней
+    {
+        if (full_name[i] == ' ' ) //  если пробел
+            break; // Выходим из цикла
+        else{
+            if (!isalpha(full_name[i])) // если не буква
+                isAlph = false;//запись некорректна
+            else // иначе запоминаем слово
+                temp +=full_name[i];}
+    }
+
+    if(isAlph) //если слово корректно, записываем его в отчество
+    {
+        patronymic_ = temp;
+        count++;
     }
 }

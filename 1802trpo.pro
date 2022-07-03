@@ -10,7 +10,6 @@ CONFIG -= app_bundle
 
 SOURCES += \
         main.cpp \
-        mainW.cpp \
         person.cpp \
         person_keeper.cpp
 
@@ -23,6 +22,11 @@ HEADERS += \
     EStackEmpty.h \
     EStackException.h \
     Stack.h \
-    mainW.h \
     person.h \
     person_keeper.h
+
+DISTFILES += \
+    file.txt \
+    file1.txt \
+    incor.txt \
+    отчет.docx

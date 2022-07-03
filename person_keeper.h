@@ -1,38 +1,22 @@
 #ifndef PERSON_KEEPER_H
 #define PERSON_KEEPER_H
-
-#include <QString>
-#include <QTextStream>
-#include <QFile>
-
 #include "person.h"
 #include "Stack.h"
+#include <fstream>
+//шаблон singleton
 class PersonKeeper
 {
-public:
-    static PersonKeeper &instance(){
-        static PersonKeeper instance;
-        return instance;
-    }; //вернет ссылку на объект класса. static позволяет не создавать новый объект при вызове функции
-
-    void readPersons(QString path); // ФИО из стека в файл
-    void writePersons(QString path) const; // ФИО из файла в стек
-
-    QStringList toQStringList() const; // конвертер из стека в список строк
-
-    int Size(); // размер стека (возвращает количество личностей)
-    void Clear(); // очистить хранилище личностей
-
 private:
-    //Замечания по способу создания объекта:
+    //Замечание по способу создания объекта:
     //1. объект класса создается через создание ссылки на объект (метод instance)
-    //2. все член-данные можно задать присвоением
-    PersonKeeper(){};
-    PersonKeeper(const PersonKeeper &);
-    ~PersonKeeper(){// нет член-данных, задаваемых динамически
-    };
+    PersonKeeper()= default;//конструктор по умолчанию: см пункт 1. и функцию instance
+    ~PersonKeeper()= default;// нет член-данных, задаваемых динамически
+   // Stack<Person> stack_; // стек ФИО
+public:
+    static PersonKeeper& instance(); //вернет ссылку на объект класса. static позволяет не создавать новый объект при вызове функции
 
-    PersonKeeper &operator=(const PersonKeeper &);
-    Stack<Person> stack_; // стэк ФИО
+    Stack<Person> readPersons(std::fstream& file); // ФИО из файла в стек
+    void writePersons(Stack<Person> s, std::fstream& file); // ФИО из стека в файл
+
 };
 #endif // PERSON_KEEPER_H
