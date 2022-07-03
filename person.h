@@ -23,9 +23,9 @@ public:
     void setPatronymic(const std::string &patronymic) { patronymic_ = patronymic; }
 
     //Возвращаем значения член данных - lastName_, firstName_, patronymic_ соответственно
-    const std::string &last_name() const { return lastName_; }
-    const std::string &first_name() const { return firstName_; }
-    const std::string &patronymic() const { return patronymic_; }
+    const std::string &last_name() { return lastName_; }
+    const std::string &first_name() { return firstName_; }
+    const std::string &patronymic() { return patronymic_; }
 
 };
 
