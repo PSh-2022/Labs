@@ -6,13 +6,13 @@
 //шаблон singleton
 class PersonKeeper
 {
-private:
-    //Замечание по способу создания объекта:
-    //1. объект класса создается через создание ссылки на объект (метод instance)
-    PersonKeeper()= default;//конструктор по умолчанию: см пункт 1. и функцию instance
+    PersonKeeper()= default;//конструктор по умолчанию
     ~PersonKeeper()= default;// нет член-данных, задаваемых динамически
 public:
-    static PersonKeeper& instance(); //вернет ссылку на объект класса. static позволяет не создавать новый объект при вызове функции
+    static PersonKeeper& instance(){
+        static PersonKeeper keeper;// static, тк создаем единственный объект
+        return keeper;
+    }; //статическая метод. Создается ссылка на объект класса.
     Stack<Person> readPersons(std::fstream& file); // ФИО из файла в стек
     void writePersons(Stack<Person> s, std::fstream& file); // ФИО из стека в файл
 

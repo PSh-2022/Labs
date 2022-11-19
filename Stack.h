@@ -13,9 +13,12 @@
 #include "EStackEmpty.h"
 #include "iostream"
 #include <functional>
-template <class T> class Stack
+template <class T>
+class Stack
 {
 private:
+    //структура используется только внутри класса и только как
+    //private-член => рационально объявить структуру в определении класса
     struct Node//узел
     {
         T value;//значение узла
@@ -23,8 +26,9 @@ private:
     };
     Node *head = nullptr; //указатель на первый узел
     int size = 0;//размер стека
+    //стек в начале пуст
 public:
-    Stack(Node *head_=nullptr,int size_=0){head = head_; size = size_;}//конструктор по умолчанию
+    Stack(const T* array = nullptr, int n = 0);//конструктор стека из массива
     Stack(const Stack <T>&copy);//конструктор копирования
     ~Stack();//деструктор
     void Push(const T &val);//помещение объекта в стек
@@ -36,6 +40,27 @@ public:
         return true;};// проверка на пустоту
     void Clear();//освободить стек
 };
+template <class T>
+Stack<T>::Stack(const T* array, int n)//конструктор стека из массива
+{
+    if ((array && n == 0) || (!array && n != 0))    //проверяем, есть ли элементы в массиве и существует ли массив
+    {
+        //при ошибке в переданном массиве -  построим пустой стек
+        head = nullptr; //указатель на первый узел
+        size = 0;
+    }
+    else{//создаем стек
+    head = nullptr;//первый узел стека пуст
+    size = 0;//размер равен нулю
+    for (int i = 0; i < n; i++)                     //запись элементов массива в стек
+    {
+        Node* head1 = head;//сохраняем вершину стека, создавая место для нового элемента
+        head = new Node;//создаем элемент в вершине стека
+        head->value = array[i];//задаем значение элемента
+        head->next = head1;//ссылка на новую вершину
+        size++;
+    }}
+}
 template<typename T>
 Stack<T>::Stack(const Stack& copy) // конструктор копирования
 {

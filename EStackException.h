@@ -11,29 +11,28 @@
 #include <cstring>
 class EStackException
 {
-private:
-    char *msg_f;//диагностическое сообщение
+    char *msg_d;//диагностическое сообщение
 public:
     //конструктор
     EStackException(const char *msg)
     {
         //size_t sizeError; //strlcpy не видит
-        msg_f = new char[strlen(msg)];//выделяем память для сообщения
-        strcpy(msg_f,msg);//записываем сообщение. strlcpy не видит
+        msg_d = new char[strlen(msg)];//выделяем память для сообщения
+        strcpy(msg_d,msg);//записываем сообщение.
     }
     //конструктор копирования
     EStackException(const  EStackException &obj)
     {
-        msg_f = new char[strlen(obj.msg_f)];//выделяем память для сообщения
-        strcpy(msg_f,obj.msg_f);//записываем сообщение. strlcpy не видит
+        msg_d = new char[strlen(obj.msg_d)];//выделяем память для сообщения
+        strcpy(msg_d,obj.msg_d);//записываем сообщение.
     }
     //деструктор
     ~EStackException()
     {
-        delete msg_f;//возвращаем память
+        delete msg_d;//удаляем сообщение, освобождая память
     }
    // публичный метод char* what(), возвращающий диагностическое сообщение
-    const char* what(){return msg_f;}
+    const char* what() const { return msg_d;}
 };
 
 #endif // ESTACKEXCEPTION_H

@@ -7,7 +7,8 @@
 
 #include "EStackException.h"
 
-class EStackEmpty : public EStackException // EStackEmpty - наследник класса EStackException
+class EStackEmpty : public EStackException
+        // EStackEmpty - наследник класса EStackException
 {
 public:
     //конструктор
