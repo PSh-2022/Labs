@@ -4,6 +4,11 @@
 #include<iostream>
 #include<string>
 
+PersonKeeper& PersonKeeper::instance()
+{
+        static PersonKeeper keeper;// static, тк создаем единственный объект
+        return keeper;
+    };
 Stack<Person> PersonKeeper::readPersons( std::fstream& file)
 {
      if (!file) // проверяем, возможно ли открыть файл на чтение. если нет - выбрасываем исключение
