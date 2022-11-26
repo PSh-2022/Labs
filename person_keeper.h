@@ -6,15 +6,14 @@
 //шаблон singleton
 class PersonKeeper
 {
-    PersonKeeper()= default;//конструктор по умолчанию
+    PersonKeeper()= default;//конструктор по умолчанию, приватный
     ~PersonKeeper()= default;// нет член-данных, задаваемых динамически
 public:
     static PersonKeeper& instance(); //статическая метод. Создается ссылка на объект класса.
+   //используется для получения одиночки
     Stack<Person> readPersons(std::fstream& file); // ФИО из файла в стек
     void writePersons(Stack<Person> s, std::fstream& file); // ФИО из стека в файл
-
 };
-
 /*Статический метод или член класс означает, что он один и тот же на
 все экземпляры (объекты) класса.
 Статический член класса - это свойство, относящееся к классу в
