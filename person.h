@@ -17,11 +17,15 @@ public:
     void setLastName(const std::string &lastName) { lastName_ = lastName; }
     void setFirstName(const std::string &firstName) { firstName_ = firstName; }
     void setPatronymic(const std::string &patronymic) { patronymic_ = patronymic; }
-
+    /*const удобен, если нужно передать параметры в
+функцию, но при этом надо обязательно знать, что
+переданный параметр не будет изменен.*/
     //Возвращаем значения член данных - lastName_, firstName_, patronymic_ соответственно
-    std::string &getLastName() { return lastName_; }
-    std::string &getFirstName() { return firstName_; }
-    std::string &getPatronymic() { return patronymic_; }
+    const std::string &getLastName() { return lastName_; }
+    const std::string &getFirstName() { return firstName_; }
+    const std::string &getPatronymic() { return patronymic_; }
+    /*const можно использовать со ссылками, чтобы через
+    ссылку нельзя было поменять значение переменной.*/
 };
 
 #endif // PERSON_H
