@@ -4,32 +4,27 @@
 #include<iostream>
 #include<string>
 
-PersonKeeper& PersonKeeper::instance()
-{
-        static PersonKeeper keeper;// static, тк создаем единственный объект
-        return keeper;
-    };
 Stack<Person> PersonKeeper::readPersons( std::fstream& file)
 {
-     if (!file) // проверяем, возможно ли открыть файл на чтение. если нет - выбрасываем исключение
+     if (!file) // проверяем, возможно ли открыть файл. если нет - выбрасываем исключение(runtime_error - класс служит базовым для всех исключений, создаваемых для сообщения об ошибках, которые можно обнаружить только при выполнении программы)
         throw std::runtime_error("Error: readPersons():  Error of opening file for reading. File cannot be opened.\n");
-     Stack<Person> stack;//создаем стек, в который будем добавлять ФИО
-     std::string string_;//временная переменная для сохранения строки с одним ФИО и последующей записи его в стек
+     Stack<Person> stack, tstack;//стек временный(перевернутый) и итоговый
+     std::string string_;//строка с ФИО
      while (std::getline(file, string_)) // пока файл не пуст, получаем строку из файла в переменную string_
-         stack.Push(Person(string_)); // добавляем личность в стек
+         tstack.Push(Person(string_)); // добавляем ФИО во временный стек
+     int tsize = tstack.Size();//получаем размер временного стека
+     for (int i=0;i<tsize;i++)//добавляем ФИО из временного стека в исходный
+         stack.Push(tstack.Pop());
      return stack;//возвращаем стек
 }
 //ФИО из стека в файл
 void PersonKeeper::writePersons(Stack<Person> s, std::fstream& file)
 {
-    Stack <Person> sp(s), ts;//копия стека и временный пустой стек
+    Stack <Person> sp(s);//копия стека s
     Person P;//временная переменная с ФИО
-    //заполняем временный стек значениями из копии исходного стека
-    for (int i=0;i<s.Size();i++)
-        ts.Push(sp.Pop());
-    //из временного стека переписываем данные ФИО в файл
+    //переписываем данные ФИО в файл
     for (int i=0;i<s.Size();i++){
-        P = ts.Pop();
-    file<<P.getLastName()<<" "<<P.getFirstName()<<" "<<P.getPatronymic()<<"\n";//запись в файл
+        P = sp.Pop();//извлекаем одно ФИО из стека
+    file<<P.getLastName()<<" "<<P.getFirstName()<<" "<<P.getPatronymic()<<"\n";//записываем в файл ФИО
     }
 }

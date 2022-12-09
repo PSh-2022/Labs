@@ -21,11 +21,9 @@ public:
 функцию, но при этом надо обязательно знать, что
 переданный параметр не будет изменен.*/
     //Возвращаем значения член данных - lastName_, firstName_, patronymic_ соответственно
-    const std::string &getLastName() { return lastName_; }
-    const std::string &getFirstName() { return firstName_; }
-    const std::string &getPatronymic() { return patronymic_; }
-    /*const можно использовать со ссылками, чтобы через
-    ссылку нельзя было поменять значение переменной.*/
+    std::string &getLastName() { return lastName_; }
+    std::string &getFirstName() { return firstName_; }
+    std::string &getPatronymic() { return patronymic_; }
 };
 
 #endif // PERSON_H
