@@ -11,7 +11,8 @@ class Person
 
 public:
     Person(){lastName_=""; firstName_=""; patronymic_="";}//конструктор по умолчанию
-    Person(const std::string& full_name); // конструктор из строки
+    Person(const std::string& last_name, const std::string& first_name, const std::string& patronimic)
+    {lastName_= last_name; firstName_= first_name; patronymic_= patronimic;}; // конструктор из строк
     // функции для взаимодействия с член-данными
     //Устанавливаем значения член данных - lastName_, firstName_, patronymic_ соответственно
     void setLastName(const std::string &lastName) { lastName_ = lastName; }

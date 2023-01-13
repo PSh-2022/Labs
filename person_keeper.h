@@ -43,6 +43,8 @@ public:
     //Person - тип значения узла в стеке
     Stack<Person> readPersons(std::fstream& file); // ФИО из файла в стек
     void writePersons(Stack<Person> s, std::fstream& file); // ФИО из стека в файл
+private:
+    std::string* partition(const std::string& full_name);//разделение ФИО
 };
 /*статический метод в классе используется, когда необходимо
 реализовать некоторое действие, которое относится к классу в

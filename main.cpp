@@ -81,26 +81,26 @@ int main()
     PersonKeeper::instance().writePersons(Persons2, File1); // Записываем в файл
     File.close();
     File1.close();
-
-   //3. данные введены некорректно
-   /* File1.open("C:\\Labs\\incor.txt", std::ios_base::in); // Открываем файл на чтение
-    PersonKeeper::instance().readPersons(File1);
+/**/
+/*   //3. данные введены некорректно
+    File1.open("C:\\Labs\\incor.txt", std::ios_base::in); // Открываем файл на чтение
+    Stack<Person> Persons3 = PersonKeeper::instance().readPersons(File1);
     File1.close();
-    File.open("C:\\Labs\\file.txt", std::ios_base::in); // Открываем файл на чтение
-    Stack<Person> Persons2 = PersonKeeper::instance().readPersons(File); // Считываем из файла
-    File1.open("C:\\Labs\\incor.txt",std::ios_base::out); // Открываем файл на запись
-    PersonKeeper::instance().writePersons(Persons2, File1); // Записываем в файл
+
+    File1.open("C:\\Labs\\file1.txt",std::ios_base::out); // Открываем файл на запись
+    PersonKeeper::instance().writePersons(Persons3, File1); // Записываем в файл
     File1.close();*/
 
   //4. файл не существует
-  /*  File.open("C:\\Labs\\ex4.txt", std::ios_base::in); // Открываем несуществующий файл на чтение
+   /*  File.open("C:\\Labs\\ex4.txt", std::ios_base::in); // Открываем несуществующий файл на чтение
     Stack<Person> Persons4 = PersonKeeper::instance().readPersons(File); // Считываем из файла
+
     File.open("C:\\Labs\\file.txt", std::ios_base::in);
     Stack<Person> Persons41 = PersonKeeper::instance().readPersons(File); // Считываем из файла
     File1.open("C:\\Labs\\willExist.txt",std::ios_base::out); // Открываем несуществующий файл на запись
     PersonKeeper::instance().writePersons(Persons41, File1); // Записываем в файл
+*/
     File.close();
     File1.close();
-*/
-    return 0;
+
 }

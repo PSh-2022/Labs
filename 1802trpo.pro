@@ -10,7 +10,6 @@ CONFIG -= app_bundle
 
 SOURCES += \
         main.cpp \
-        person.cpp \
         person_keeper.cpp
 
 # Default rules for deployment.
